@@ -9,29 +9,29 @@ class UserModel {
     }
 
     public function getUsers() {
-        return $this->db->get('users');
+        return $this->db->get('ha');
     }
 
     public function addUser($data) {
-        return $this->db->insert('users', $data);
+        return $this->db->insert('ha', $data);
     }
 
     public function getUserById($id) {
-        return $this->db->where('id', $id)->getOne('users');
+        return $this->db->where('id', $id)->getOne('ha');
     }
 
-    public function updateUser($id, $data) {
+    /*public function updateUser($id, $data) {
         $this->db->where('id', $id);
         return $this->db->update('users', $data);
     }
-
-    public function deleteUser($id) {
+    */
+    /*public function deleteUser($id) {
         $this->db->where('id', $id);
         return $this->db->delete('users');
     }
-
+    */
     public function searchUsers($searchTerm) {
-        $this->db->where('username',$searchTerm."%", 'LIKE');
+        $this->db->where('Phone',$searchTerm, '=');
         return $this->db->get('users');
     }
 }

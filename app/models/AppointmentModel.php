@@ -1,44 +1,44 @@
 <?php
-
 namespace app\models;
 
 class AppointmentModel {
-    
     private $db;
 
-    public function __construct($db){
+    public function __construct($db) {
         $this->db = $db;
     }
 
-    public function checkUserExists($userId) {
-        return $this->db->where('id', $userId)->getOne('users');
-    }
+    public function getAppointment() {
+        return $this->db->get('appointments');
+    }   
 
-    public function checkDoctorExists($doctorId) {
-        return $this->db->where('id', $doctorId)->getOne('doctors');
-    }
-
-    public function addAppointment($Doctor_id,$User_id,$date_time,$clock,$Condition_id) {
-        $data = array(
-            'Doctor_id'=>$Doctor_id,
-            'User_id' =>$User_id,
-            'date_time'=>$date_time,
-            'clock'=>$clock,
-            'Condition_id'=>$Condition_id
-        );
+    public function addAppointment($data) {
         return $this->db->insert('appointments', $data);
     }
-    public function getAppointments() {
-        return $this->db->get('appointments');
-    }
-    public function getAppointmentsByUserId($userId) {
-        $appointments = $this->db->where('User_id', $userId)->get('appointments');
-        return $appointments;
+
+    public function getAppointmentById($id) {
+        return $this->db->where('id', $id)->getOne('appointments');
     }
 
-    public function getAppointmentsByDoctorId($doctorId) {
-        $appointments = $this->db->where('Doctor_id', $doctorId)->get('appointments');
-        return $appointments;
+    public function updateAppointment($id, $data) {
+        $this->db->where('id', $id);
+        return $this->db->update('appointments', $data);
+    }
+
+    public function deleteAppointment($id) {
+        $this->db->where('id', $id);
+        return $this->db->delete('appointments');
+    }
+
+    public function searchAppointment($searchTerm) {
+        $this->db->where('Date', $searchTerm, 'LIKE');
+        return $this->db->get('appointments');
+    }
+    public function Appointmentexist( $date,$time ,$doctor_id)
+    {
+       $v= $this->db->where('Date',  $date)->where('Time', $time )->where('doctor_id', $doctor_id )->get('Appointments');
+        if( $this->db->count>0)
+        return true;
+    else return false;
     }
 }
-?>
